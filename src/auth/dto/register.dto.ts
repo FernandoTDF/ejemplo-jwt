@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class RegisterDto{
 
-  @IsString()
+  @IsString()//estas son verificaciones que debe cumplir la info al ingresar al DTO
   @IsNotEmpty()
   readonly username:string;
 
