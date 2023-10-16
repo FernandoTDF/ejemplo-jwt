@@ -1,3 +1,4 @@
+import { Role } from "src/common/enum/role.enum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -15,10 +16,15 @@ export class User {
   @Column({ nullable:false })
   password:string;
 
-  constructor(pEmail:string, pPassword:string, pUserName?:string){
+  @Column({type: 'enum', default:Role.USER, enum:Role})
+  role:Role;
+
+
+  constructor(pEmail:string, pPassword:string, pUserName:string, pRole?:Role){
     this.email = pEmail;
     this.password = pPassword;
     this.username = pUserName;
+    this.role = pRole;
 
   }
 

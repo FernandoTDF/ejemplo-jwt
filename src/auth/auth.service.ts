@@ -20,7 +20,7 @@ export class AuthService {
     if (user) {
       throw new BadRequestException(`El usuario ya existe`) //interrupe ejecucion
     } else {
-      return await this.userService.create(new User(registerDto.email, pass_encryptada, registerDto.username))
+      return await this.userService.create(new User(registerDto.email, pass_encryptada, registerDto.username,registerDto.role))
     }
   }
 
@@ -31,14 +31,21 @@ export class AuthService {
     if(!user){
       throw new UnauthorizedException('usuario incorrecto');
     } else {
+
       //se usa la libreria de bcript para compararlas y arroja un booleano
       const isPasswordValid = await bcrypt.compare(password,user.password);
 
       if(!isPasswordValid){
         throw new UnauthorizedException('password incorrecto');
+
       }else{//si son iguales:
         //creacion del payload
-        const payload = {email: user.email}
+        const payload = {email: user.email,
+                         role: user.role,
+                         username:user.username
+
+        }
+
         //creo el token
         const token = await this.jwtService.signAsync(payload);
         return token
